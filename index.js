@@ -15,15 +15,13 @@ import EnrollmentRoutes from "./Kanbas/Enrollments/routes.js";
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
 const app = express();
+app.use(express.json());
 app.use(
     cors({
         credentials: true,
         origin: process.env.NETLIFY_URL || "http://localhost:3000",
     })
 );
-
-app.use(express.json());
-
 const sessionOptions = {
     secret: process.env.SESSION_SECRET || "kanbas",
     resave: false,
@@ -39,11 +37,11 @@ if (process.env.NODE_ENV !== "development") {
     };
 }
 app.use(session(sessionOptions));
-UserRoutes(app);
+Lab5(app);
 Hello(app);
+UserRoutes(app);
 CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);
 EnrollmentRoutes(app);
-Lab5(app);
 app.listen(process.env.PORT || 4000)
